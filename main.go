@@ -41,7 +41,8 @@ func main() {
 		"encoderConfig": {
 		  "messageKey": "message",
 		  "levelKey": "level",
-		  "levelEncoder": "lowercase"
+		  "levelEncoder": "lowercase",
+		  "timeKey": "time",
 		}
 	  }`)
 	var cfg zap.Config
