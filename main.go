@@ -18,14 +18,6 @@ func SetDefaultString(defaultVal string, overrideVal string) string {
 	return defaultVal
 }
 
-// SetDefaultBool will return either the default bool or an overriden value
-func SetDefaultBool(defaultVal bool, overrideVal bool) bool {
-	if overrideVal != nil {
-		return overrideVal
-	}
-	return defaultVal
-}
-
 const (
 	DEFAULT_DEBUG_VALUE = false
 )
@@ -37,8 +29,7 @@ func main() {
 	}
 	defer logger.Sync() // flushes buffer, if any
 
-	debugParse, _ := strconv.ParseBool(os.Getenv("DEBUG"))
-	debugEnabled := SetDefaultBool(DEFAULT_DEBUG_VALUE, debugParse)
+	debugEnabled, _ := strconv.ParseBool(os.Getenv("DEBUG"))
 
 	// Read in the environmental variable for INTERVAL
 	interval, err := time.ParseDuration(SetDefaultString("5s", os.Getenv("INTERVAL")))
