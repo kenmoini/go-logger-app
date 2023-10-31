@@ -17,6 +17,20 @@ func SetDefaultString(defaultVal string, overrideVal string) string {
 	return defaultVal
 }
 
+func isDebug() bool {
+	inputDebug := os.Getenv("DEBUG")
+	defaultDebug := false
+	if inputDebug == "" {
+		return defaultDebug
+	} else {
+		if inputDebug == "true" {
+			return true
+		} else {
+			return false
+		}
+	}
+}
+
 func main() {
 	logger, err := zap.NewProduction()
 	if err != nil {
@@ -29,8 +43,15 @@ func main() {
 	if err != nil {
 		logger.Fatal(err.Error())
 	}
+	if isDebug() {
+		logger.Info("Interval", zap.String("interval", interval.String()))
+	}
+
 	// Read in the environmental variable for MESSAGE_PATH
 	messagePath := SetDefaultString("./messages", os.Getenv("MESSAGE_PATH"))
+	if isDebug() {
+		logger.Info("Message Path", zap.String("messagePath", messagePath))
+	}
 
 	// Find all the files in the MESSAGE_PATH directory
 	// that match a .msg extension
@@ -53,18 +74,29 @@ func main() {
 		for _, file := range files {
 			// Make sure this is not a directory
 			if !file.IsDir() {
+				if isDebug() {
+					logger.Info("Processing message file", zap.String("file", file.Name()))
+				}
 
 				// Remove the .msg extension from the file name
 				fileBaseName := strings.TrimSuffix(file.Name(), ".msg")
-				logger.Info("Processing message file", zap.String("file", fileBaseName))
+				if isDebug() {
+					logger.Info("Processing message file", zap.String("file", fileBaseName))
+				}
 
 				// Split the filename at the hyphen
 				fileNameParts := strings.Split(fileBaseName, "-")
+				if isDebug() {
+					logger.Info("File name parts", zap.Strings("fileNameParts", fileNameParts))
+				}
 
 				if len(fileNameParts) > 1 {
 					// Set the log info variables
 					//logType := fileNameParts[0]
 					logLevel := fileNameParts[1]
+					if isDebug() {
+						logger.Info("Log level", zap.String("logLevel", logLevel))
+					}
 
 					// Read in the file data
 					fileData, err := os.ReadFile(messagePath + "/" + file.Name())
