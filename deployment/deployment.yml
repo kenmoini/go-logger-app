@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: logger-app
+  name: logger-app
+  annotations: {}
+spec:
+  selector:
+    matchLabels:
+      app: logger-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: logger-app
+    spec:
+      containers:
+        - name: logger-app
+          imagePullPolicy: Always
+          image: 'quay.io/kenmoini/logger-app:latest'
+          env:
+            - name: INTERVAL
+              value: "5s"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+  strategy:
+    type: Recreate
