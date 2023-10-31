@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: 'messages'
+  namespace: logger-app
+data:
+  json_objects-info.msg: |-
+    {
+      {"log":{"level":"debug","message":"I'm a noisy debug log"}},
+      {"log":{"level":"info","message":"I'm a normal info log"}}
+    }
+  text_blob-err.msg: |
+    This is an error message!
+
+    Lots of lines!
+
+    Of angry data!
+  text_blob-info.msg: |-
+    Just for fun information's sake!

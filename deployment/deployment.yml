@@ -22,6 +22,8 @@ spec:
           env:
             - name: INTERVAL
               value: "5s"
+            - name: MESSAGE_PATH
+              value: "/messages"
           resources:
             limits:
               cpu: 500m
@@ -29,5 +31,12 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+          volumeMounts:
+            - name: messages
+              mountPath: /messages
+      volumes:
+        - name: messages
+          configMap:
+            name: messages
   strategy:
     type: Recreate
