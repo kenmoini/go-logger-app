@@ -22,8 +22,8 @@ const (
 )
 
 func isDebug() bool {
-	defaultDebug := false
 	inputDebug := os.Getenv("DEBUG")
+	defaultDebug := false
 	if inputDebug == "" {
 		return defaultDebug
 	} else {
