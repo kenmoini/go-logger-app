@@ -90,30 +90,32 @@ func main() {
 					logger.Info("File name parts", zap.Strings("fileNameParts", fileNameParts))
 				}
 
-				// Set the log info variables
-				//logType := fileNameParts[0]
-				logLevel := fileNameParts[1]
-				if debugEnabled {
-					logger.Info("Log level", zap.String("logLevel", logLevel))
-				}
+				if len(fileNameParts) < 1 {
+					// Set the log info variables
+					//logType := fileNameParts[0]
+					logLevel := fileNameParts[1]
+					if debugEnabled {
+						logger.Info("Log level", zap.String("logLevel", logLevel))
+					}
 
-				// Read in the file data
-				fileData, err := os.ReadFile(messagePath + "/" + file.Name())
-				if err != nil {
-					log.Fatal(err)
-				}
+					// Read in the file data
+					fileData, err := os.ReadFile(messagePath + "/" + file.Name())
+					if err != nil {
+						log.Fatal(err)
+					}
 
-				// Log the message
-				switch logLevel {
-				case "debug":
-					logger.Debug(string(fileData))
-				case "info":
-					logger.Info(string(fileData))
-				case "warn":
-					logger.Warn(string(fileData))
-				case "error":
-				case "err":
-					logger.Error(string(fileData))
+					// Log the message
+					switch logLevel {
+					case "debug":
+						logger.Debug(string(fileData))
+					case "info":
+						logger.Info(string(fileData))
+					case "warn":
+						logger.Warn(string(fileData))
+					case "error":
+					case "err":
+						logger.Error(string(fileData))
+					}
 				}
 
 				//fmt.Println(file.Name())
