@@ -43,6 +43,7 @@ func main() {
 		  "levelKey": "level",
 		  "levelEncoder": "lowercase",
 		  "timeKey": "time",
+		  "timeEncoder": "iso8601"
 		}
 	  }`)
 	var cfg zap.Config
