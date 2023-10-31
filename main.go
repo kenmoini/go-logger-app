@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"os"
-	"strconv"
 	"strings"
 	"time"
 
@@ -22,6 +21,20 @@ const (
 	DEFAULT_DEBUG_VALUE = false
 )
 
+func isDebug() bool {
+	defaultDebug := false
+	inputDebug := os.Getenv("DEBUG")
+	if inputDebug == "" {
+		return defaultDebug
+	} else {
+		if inputDebug == "true" {
+			return true
+		} else {
+			return false
+		}
+	}
+}
+
 func main() {
 	logger, err := zap.NewProduction()
 	if err != nil {
@@ -29,20 +42,18 @@ func main() {
 	}
 	defer logger.Sync() // flushes buffer, if any
 
-	debugEnabled, _ := strconv.ParseBool(os.Getenv("DEBUG"))
-
 	// Read in the environmental variable for INTERVAL
 	interval, err := time.ParseDuration(SetDefaultString("5s", os.Getenv("INTERVAL")))
 	if err != nil {
 		logger.Fatal(err.Error())
 	}
-	if debugEnabled {
+	if isDebug() {
 		logger.Info("Interval", zap.String("interval", interval.String()))
 	}
 
 	// Read in the environmental variable for MESSAGE_PATH
 	messagePath := SetDefaultString("./messages", os.Getenv("MESSAGE_PATH"))
-	if debugEnabled {
+	if isDebug() {
 		logger.Info("Message Path", zap.String("messagePath", messagePath))
 	}
 
@@ -67,7 +78,7 @@ func main() {
 		for _, file := range files {
 			// Make sure this is not a directory
 			if !file.IsDir() {
-				if debugEnabled {
+				if isDebug() {
 					logger.Info("Processing message file", zap.String("file", file.Name()))
 				}
 
@@ -77,7 +88,7 @@ func main() {
 
 				// Split the filename at the hyphen
 				fileNameParts := strings.Split(fileBaseName, "-")
-				if debugEnabled {
+				if isDebug() {
 					logger.Info("File name parts", zap.Strings("fileNameParts", fileNameParts))
 				}
 
@@ -85,7 +96,7 @@ func main() {
 					// Set the log info variables
 					//logType := fileNameParts[0]
 					logLevel := fileNameParts[1]
-					if debugEnabled {
+					if isDebug() {
 						logger.Info("Log level", zap.String("logLevel", logLevel))
 					}
 
