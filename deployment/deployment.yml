@@ -42,3 +42,4 @@ spec:
             name: messages
   strategy:
     type: Recreate
+  revisionHistoryLimit: 2
