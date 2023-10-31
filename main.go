@@ -1,9 +1,9 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -18,6 +18,18 @@ func SetDefaultString(defaultVal string, overrideVal string) string {
 	return defaultVal
 }
 
+// SetDefaultBool will return either the default bool or an overriden value
+func SetDefaultBool(defaultVal bool, overrideVal *bool) bool {
+	if overrideVal != nil {
+		return *overrideVal
+	}
+	return defaultVal
+}
+
+const (
+	DEFAULT_DEBUG_VALUE = false
+)
+
 func main() {
 	logger, err := zap.NewProduction()
 	if err != nil {
@@ -25,17 +37,27 @@ func main() {
 	}
 	defer logger.Sync() // flushes buffer, if any
 
+	debugParse, _ := strconv.ParseBool(os.Getenv("DEBUG"))
+	debugEnabled := SetDefaultBool(DEFAULT_DEBUG_VALUE, &debugParse)
+
 	// Read in the environmental variable for INTERVAL
 	interval, err := time.ParseDuration(SetDefaultString("5s", os.Getenv("INTERVAL")))
 	if err != nil {
 		logger.Fatal(err.Error())
 	}
+	if debugEnabled {
+		logger.Info("Interval", zap.String("interval", interval.String()))
+	}
+
 	// Read in the environmental variable for MESSAGE_PATH
 	messagePath := SetDefaultString("./messages", os.Getenv("MESSAGE_PATH"))
+	if debugEnabled {
+		logger.Info("Message Path", zap.String("messagePath", messagePath))
+	}
 
 	// Find all the files in the MESSAGE_PATH directory
 	// that match a .msg extension
-	files, err := ioutil.ReadDir(messagePath)
+	files, err := os.ReadDir(messagePath)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -54,17 +76,26 @@ func main() {
 		for _, file := range files {
 			// Make sure this is not a directory
 			if !file.IsDir() {
+				if debugEnabled {
+					logger.Info("Processing message file", zap.String("file", file.Name()))
+				}
+
 				// Remove the .msg extension from the file name
 				fileBaseName := strings.TrimSuffix(file.Name(), ".msg")
-
 				logger.Info("Processing message file", zap.String("file", fileBaseName))
 
 				// Split the filename at the hyphen
 				fileNameParts := strings.Split(fileBaseName, "-")
+				if debugEnabled {
+					logger.Info("File name parts", zap.Strings("fileNameParts", fileNameParts))
+				}
 
 				// Set the log info variables
 				//logType := fileNameParts[0]
 				logLevel := fileNameParts[1]
+				if debugEnabled {
+					logger.Info("Log level", zap.String("logLevel", logLevel))
+				}
 
 				// Read in the file data
 				fileData, err := os.ReadFile(messagePath + "/" + file.Name())
