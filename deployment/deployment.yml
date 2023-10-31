@@ -25,7 +25,7 @@ spec:
             - name: MESSAGE_PATH
               value: "/messages"
             - name: DEBUG
-              value: "true"
+              value: "false"
           resources:
             limits:
               cpu: 500m
