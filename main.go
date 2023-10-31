@@ -57,6 +57,8 @@ func main() {
 				// Remove the .msg extension from the file name
 				fileBaseName := strings.TrimSuffix(file.Name(), ".msg")
 
+				logger.Info("Processing message file", zap.String("file", fileBaseName))
+
 				// Split the filename at the hyphen
 				fileNameParts := strings.Split(fileBaseName, "-")
 
