@@ -75,7 +75,7 @@ func main() {
 		// Loop through the files
 		for _, file := range files {
 			// Make sure this is not a directory
-			if !file.IsDir() && file.Type().IsRegular() {
+			if !file.IsDir() {
 				if debugEnabled {
 					logger.Info("Processing message file", zap.String("file", file.Name()))
 				}
