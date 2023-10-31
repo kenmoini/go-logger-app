@@ -90,7 +90,7 @@ func main() {
 					logger.Info("File name parts", zap.Strings("fileNameParts", fileNameParts))
 				}
 
-				if len(fileNameParts) < 1 {
+				if len(fileNameParts) > 1 {
 					// Set the log info variables
 					//logType := fileNameParts[0]
 					logLevel := fileNameParts[1]
