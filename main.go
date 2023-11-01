@@ -216,6 +216,8 @@ func main() {
 				pid := rand.Intn(2000)
 				sugar.Infow("foobar.rb:6:in /': divided by 0 (ZeroDivisionError)\n from foobar.rb:6:in bar'\n from foobar.rb:2:in foo'\n from foobar.rb:9:in \u003cmain\u003e'", "host", "host1.example.com", "tid", tid, "pid", pid)
 				sugar.Infow("Hello world, I am a new log", "host", "host1.example.com", "tid", tid, "pid", pid)
+
+				sugar.Infow("[{\"message\": \"first_log\", \"tid\": " + fmt.Sprint(tid) + ", \"pid\": " + fmt.Sprint(pid) + "}, {\"message\": \"second_log\", \"tid\": " + fmt.Sprint(tid) + ", \"pid\": " + fmt.Sprint(pid) + "}]")
 				//fmt.Println(file.Name())
 			}
 		}
