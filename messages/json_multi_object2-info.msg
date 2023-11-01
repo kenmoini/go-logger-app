@@ -1,0 +1,1 @@
+{"host":"host-1.hostname.com", "message":"Hello world, I am a new log", "pid":1234, "tid":5678, "timestamp":"2020-10-07T12:33:22.123528Z"}

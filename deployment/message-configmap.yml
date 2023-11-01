@@ -4,7 +4,7 @@ metadata:
   name: 'messages'
   namespace: logger-app
 data:
-  json_objects-info.msg: |-
+  text_with_json_objects-info.msg: |-
     {
       {"log":{"level":"debug","message":"I'm a noisy debug log"}},
       {"log":{"level":"info","message":"I'm a normal info log"}}
@@ -17,3 +17,8 @@ data:
     Of angry data!
   text_blob-info.msg: |-
     Just for fun information's sake!
+  text_blob-debug.msg: DEBUG MESSAGE WITH LOTS OF DATA!
+  json_multi_object1-info.msg: |-
+    {"host":"host-1.hostname.com", "message":"foobar.rb:6:in /': divided by 0 (ZeroDivisionError)\n from foobar.rb:6:in bar'\n from foobar.rb:2:in foo'\n from foobar.rb:9:in \u003cmain\u003e'", "pid":1234, "tid":5678, "timestamp":"2020-10-07T12:33:21.223543Z"}
+  json_multi_object2-info.msg: |-
+    {"host":"host-1.hostname.com", "message":"Hello world, I am a new log", "pid":1234, "tid":5678, "timestamp":"2020-10-07T12:33:22.123528Z"}

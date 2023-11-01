@@ -1,0 +1,1 @@
+{"host":"host-1.hostname.com", "message":"foobar.rb:6:in /': divided by 0 (ZeroDivisionError)\n from foobar.rb:6:in bar'\n from foobar.rb:2:in foo'\n from foobar.rb:9:in \u003cmain\u003e'", "pid":1234, "tid":5678, "timestamp":"2020-10-07T12:33:21.223543Z"}
