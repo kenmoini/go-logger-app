@@ -172,14 +172,14 @@ func main() {
 							} else {
 								switch logLevel {
 								case "debug":
-									sugar.Debugw(file.Name(), ZapJsonable("event", jsonData))
+									sugar.Debugw(file.Name(), "msg", jsonData.Message, "timestamp", jsonData.Timestamp, "host", jsonData.Host, "tid", jsonData.TID, "pid", jsonData.PID, ZapJsonable("event", jsonData))
 								case "info":
-									sugar.Infow(file.Name(), ZapJsonable("event", jsonData))
+									sugar.Infow(file.Name(), "msg", jsonData.Message, "timestamp", jsonData.Timestamp, "host", jsonData.Host, "tid", jsonData.TID, "pid", jsonData.PID, ZapJsonable("event", jsonData))
 								case "warn":
-									sugar.Warnw(file.Name(), ZapJsonable("event", jsonData))
+									sugar.Warnw(file.Name(), "msg", jsonData.Message, "timestamp", jsonData.Timestamp, "host", jsonData.Host, "tid", jsonData.TID, "pid", jsonData.PID, ZapJsonable("event", jsonData))
 								case "error":
 								case "err":
-									sugar.Errorw(file.Name(), ZapJsonable("event", jsonData))
+									sugar.Errorw(file.Name(), "msg", jsonData.Message, "timestamp", jsonData.Timestamp, "host", jsonData.Host, "tid", jsonData.TID, "pid", jsonData.PID, ZapJsonable("event", jsonData))
 								}
 							}
 						case "text":
